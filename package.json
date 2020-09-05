@@ -1,0 +1,10 @@
+{
+  "name": "js-interpreter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Nikita Lukashev",
+  "license": "MIT",
+  "dependencies": {
+    "acorn": "^8.0.1"
+  }
+}
