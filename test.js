@@ -1,9 +1,7 @@
-function foobar(a) {
-  var b = 32;
-  var c = b - 25;
-  return c * a;
+function foobar() {
+  let sum = 2
+  sum += 5
+  print(sum)
 }
 
-var res = foobar(4);
-
-print(res);
+foobar()

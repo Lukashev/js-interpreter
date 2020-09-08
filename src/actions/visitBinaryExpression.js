@@ -1,14 +1,17 @@
-const index = require("./index");
+const index = require("./index")
 
 const operations = {
-  "-": (left, right) => left - right,
-  "+": (left, right) => left + right,
-  "*": (left, right) => left * right,
-  "/": (left, right) => left / right,
-};
+  "-": (l, r) => l - r,
+  "+": (l, r) => l + r,
+  "*": (l, r) => l * r,
+  "/": (l, r) => l / r,
+}
 
 module.exports = function (node) {
-  const leftValue = index.visitNode(node.left);
-  const rightNode = index.visitNode(node.right);
-  return operations[node.operator](leftValue, rightNode.value || rightNode);
-};
+  const leftNode = index.visitNode(node.left)
+  const rightNode = index.visitNode(node.right)
+  return operations[node.operator](
+    leftNode.value || leftNode,
+    rightNode.value || rightNode
+  )
+}

@@ -1,13 +1,14 @@
-const visitExpressionStatement = require("./visitExpressionStatement");
-const visitVariableDeclaration = require("./visitVariableDeclaration");
-const visitVariableDeclarator = require("./visitVariableDeclarator");
-const visitLiteral = require("./visitLiteral");
-const visitIdentifier = require("./visitIdentifier");
-const visitCallExpression = require("./visitCallExpression");
-const visitBinaryExpression = require("./visitBinaryExpression");
-const visitFunctionDeclaration = require("./visitFunctionDeclaration");
-const visitBlockStatement = require("./visitBlockStatement");
-const visitReturnStatement = require("./visitReturnStatement");
+const visitExpressionStatement = require("./visitExpressionStatement")
+const visitVariableDeclaration = require("./visitVariableDeclaration")
+const visitVariableDeclarator = require("./visitVariableDeclarator")
+const visitLiteral = require("./visitLiteral")
+const visitIdentifier = require("./visitIdentifier")
+const visitCallExpression = require("./visitCallExpression")
+const visitBinaryExpression = require("./visitBinaryExpression")
+const visitFunctionDeclaration = require("./visitFunctionDeclaration")
+const visitBlockStatement = require("./visitBlockStatement")
+const visitReturnStatement = require("./visitReturnStatement")
+const visitAssignmentExpression = require("./visitAssignmentExpression")
 
 const actionList = {
   VariableDeclaration: visitVariableDeclaration,
@@ -20,34 +21,48 @@ const actionList = {
   FunctionDeclaration: visitFunctionDeclaration,
   BlockStatement: visitBlockStatement,
   ReturnStatement: visitReturnStatement,
-};
+  AssignmentExpression: visitAssignmentExpression,
+}
 
 const visitNodes = function (nodes) {
   for (const node of nodes) {
-    actionList[node.type](node);
+    actionList[node.type](node)
   }
-};
+}
 
 const visitNode = function (node) {
-  return actionList[node.type](node);
-};
+  return actionList[node.type](node)
+}
 
 const createScope = function (node) {
-  let currentScope = global.globalScope;
-  currentScope.set(node.name, new Map());
-  global.globalScope = currentScope;
-};
+  let currentScope = global.globalScope
+  currentScope.set(node.name, new Map())
+  global.globalScope = currentScope
+}
 
 const setScope = function (scopeName) {
-  global.globalScope.set("current", scopeName);
-};
+  global.globalScope.set("current", scopeName)
+}
 
 const getScope = function (scopeName) {
-  return global.globalScope.get(scopeName);
-};
+  return global.globalScope.get(scopeName)
+}
 
-module.exports.visitNodes = visitNodes;
-module.exports.visitNode = visitNode;
-module.exports.createScope = createScope;
-module.exports.setScope = setScope;
-module.exports.getScope = getScope;
+const updateScope = function (key, value) {
+  const scopeName = getScope("current")
+  if (scopeName) {
+    let currentScope = global.globalScope.get(scopeName)
+    currentScope.set(key, value)
+    global.globalScope.set(scopeName, currentScope)
+  } else {
+    global.globalScope.set(key, value)
+  }
+}
+
+module.exports.visitNodes = visitNodes
+module.exports.visitNode = visitNode
+module.exports.createScope = createScope
+module.exports.setScope = setScope
+module.exports.getScope = getScope
+module.exports.updateScope = updateScope
+module.exports.actionList = actionList
