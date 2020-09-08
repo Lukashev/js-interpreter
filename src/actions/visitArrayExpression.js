@@ -1,5 +1,5 @@
 const index = require("./index")
 
 module.exports = function (node) {
-  index.visitNode(node.expression)
+  return node.elements.map((element) => index.visitNode(element))
 }

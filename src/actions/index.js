@@ -9,6 +9,10 @@ const visitFunctionDeclaration = require("./visitFunctionDeclaration")
 const visitBlockStatement = require("./visitBlockStatement")
 const visitReturnStatement = require("./visitReturnStatement")
 const visitAssignmentExpression = require("./visitAssignmentExpression")
+const visitForStatement = require("./visitForStatement")
+const visitUpdateExpression = require("./visitUpdateExpression")
+const visitArrayExpression = require("./visitArrayExpression")
+const visitMemberExpression = require("./visitMemberExpression")
 
 const actionList = {
   VariableDeclaration: visitVariableDeclaration,
@@ -22,9 +26,14 @@ const actionList = {
   BlockStatement: visitBlockStatement,
   ReturnStatement: visitReturnStatement,
   AssignmentExpression: visitAssignmentExpression,
+  ForStatement: visitForStatement,
+  UpdateExpression: visitUpdateExpression,
+  ArrayExpression: visitArrayExpression,
+  MemberExpression: visitMemberExpression,
 }
 
 const visitNodes = function (nodes) {
+  //console.log(nodes)
   for (const node of nodes) {
     actionList[node.type](node)
   }
@@ -59,6 +68,10 @@ const updateScope = function (key, value) {
   }
 }
 
+const notEmpty = function (value) {
+  return value !== undefined && value !== null
+}
+
 module.exports.visitNodes = visitNodes
 module.exports.visitNode = visitNode
 module.exports.createScope = createScope
@@ -66,3 +79,4 @@ module.exports.setScope = setScope
 module.exports.getScope = getScope
 module.exports.updateScope = updateScope
 module.exports.actionList = actionList
+module.exports.notEmpty = notEmpty

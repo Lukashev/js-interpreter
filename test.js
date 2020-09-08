@@ -1,7 +1,3 @@
-function foobar() {
-  let sum = 2
-  sum += 5
-  print(sum)
-}
+const a = { b: 1 }
 
-foobar()
+print(a[b])

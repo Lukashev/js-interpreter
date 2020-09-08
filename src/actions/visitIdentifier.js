@@ -1,13 +1,16 @@
+const index = require("./index")
+
 module.exports = function (node) {
-  const { globalScope } = global;
-  const current = globalScope.get("current");
+  const { globalScope } = global
+  const current = globalScope.get("current")
   if (current) {
-    const currentScope = globalScope.get(current);
-    const payload = currentScope.get(node.name);
+    const currentScope = globalScope.get(current)
+    const payload = currentScope.get(node.name)
     if (payload && payload.value) {
-      return payload.value;
+      return payload.value
     }
-    return payload || node.name;
+    return payload || node.name
   }
-  return globalScope.get(node.name) || node.name;
-};
+  const scopeValue = globalScope.get(node.name)
+  return index.notEmpty(scopeValue) ? scopeValue : node.name
+}

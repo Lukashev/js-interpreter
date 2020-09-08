@@ -1,41 +1,41 @@
-const index = require("./index");
+const index = require("./index")
 
 function evalArgs(args) {
-  let result = [];
+  let result = []
   for (const arg of args) {
-    const c = index.visitNode(arg);
-    result.push(c.value || c);
+    const c = index.visitNode(arg)
+    result.push(typeof c === "object" ? c.value : c)
   }
-  return result;
+  return result
 }
 
 module.exports = function (node) {
-  const args = evalArgs(node.arguments);
-  const calleeName = node.callee.name;
+  const args = evalArgs(node.arguments)
+  const calleeName = node.callee.name
 
   if (calleeName === "print") {
-    return console.log(...args);
+    return console.log(...args)
   }
-  const fnScope = global.globalScope.get(calleeName);
-  const params = fnScope.get("params");
+  const fnScope = global.globalScope.get(calleeName)
+  const params = fnScope.get("params")
 
   for (const key in params) {
-    fnScope.set(params[key], args[key]);
+    fnScope.set(params[key], args[key])
   }
-  global.globalScope.set(calleeName, fnScope);
+  global.globalScope.set(calleeName, fnScope)
 
-  const body = fnScope.get("body");
+  const body = fnScope.get("body")
 
-  index.setScope(calleeName);
-  let result = undefined;
+  index.setScope(calleeName)
+  let result = undefined
 
   for (let childNode of body) {
-    const value = index.visitNode(childNode);
+    const value = index.visitNode(childNode)
     if (childNode.kind === "ReturnStatement") {
-      result = value;
-      break;
+      result = value
+      break
     }
   }
-  index.setScope(null);
-  return result;
-};
+  index.setScope(null)
+  return result
+}

@@ -13,8 +13,8 @@ module.exports = function (node) {
   return index.updateScope(
     node.left.name,
     operations[node.operator](
-      leftNode.value || leftNode,
-      rightNode.value || rightNode
+      typeof leftNode === "object" ? leftNode.value : leftNode,
+      typeof rightNode === "object" ? rightNode.value : rightNode
     )
   )
 }
