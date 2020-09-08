@@ -1,3 +1,3 @@
-const a = { b: 1 }
+const a = [1, 10, 2]
 
-print(a[b])
+print(a[0])
