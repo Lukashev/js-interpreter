@@ -1,3 +1,5 @@
-const a = [1, 10, 2]
+function foobar(a, b) {
+  return a + b;
+}
 
-print(a[0])
+print(foobar(2, 3));
