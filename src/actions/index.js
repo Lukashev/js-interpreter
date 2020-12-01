@@ -13,6 +13,10 @@ const visitForStatement = require("./visitForStatement")
 const visitUpdateExpression = require("./visitUpdateExpression")
 const visitArrayExpression = require("./visitArrayExpression")
 const visitMemberExpression = require("./visitMemberExpression")
+const visitUnaryExpression = require("./visitUnaryExpression")
+const visitObjectExpression = require("./visitObjectExpression")
+const visitDoWhileStatement = require("./visitDoWhileStatement")
+const visitWhileStatement = require("./visitWhileStatement")
 
 const actionList = {
   VariableDeclaration: visitVariableDeclaration,
@@ -30,6 +34,10 @@ const actionList = {
   UpdateExpression: visitUpdateExpression,
   ArrayExpression: visitArrayExpression,
   MemberExpression: visitMemberExpression,
+  UnaryExpression: visitUnaryExpression,
+  ObjectExpression: visitObjectExpression,
+  DoWhileStatement: visitDoWhileStatement,
+  WhileStatement: visitWhileStatement
 }
 
 const visitNodes = function (nodes) {
@@ -40,6 +48,7 @@ const visitNodes = function (nodes) {
 }
 
 const visitNode = function (node) {
+  //console.log(node.type)
   return actionList[node.type](node)
 }
 

@@ -14,6 +14,7 @@ module.exports = function (node) {
   const calleeName = node.callee.name
 
   if (calleeName === "print") {
+    //console.log('ARGS', args)
     return console.log(...args)
   }
   const fnScope = global.globalScope.get(calleeName)
